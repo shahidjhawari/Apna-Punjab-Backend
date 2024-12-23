@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Welcome");
+  res.send("API is running");
 });
 
 app.use("/api/categories", categoryRoutes);
