@@ -35,19 +35,19 @@ router.get('/', async (req, res) => {
       return res.status(400).json({ message: 'Category is required' });
     }
 
-    // Case-insensitive search for the category
     const categoryObj = await Category.findOne({ name: new RegExp(`^${category}$`, 'i') });
     if (!categoryObj) {
       return res.status(404).json({ message: 'Category not found' });
     }
 
     const products = await Product.find({ category: categoryObj._id }).populate('category');
-    res.status(200).json(products);
+    return res.status(200).json(products);
   } catch (error) {
-    console.error(error.message); // Log the error for debugging
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error(error.message);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 // Add a new product
 router.post('/', upload.single('image'), async (req, res) => {
