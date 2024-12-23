@@ -29,24 +29,27 @@ const upload = multer({ storage });
 // Get products by category
 router.get('/', async (req, res) => {
   const { category } = req.query;
-
   try {
     if (!category) {
+      console.log('Category is missing');
       return res.status(400).json({ message: 'Category is required' });
     }
 
     const categoryObj = await Category.findOne({ name: new RegExp(`^${category}$`, 'i') });
     if (!categoryObj) {
+      console.log('Category not found');
       return res.status(404).json({ message: 'Category not found' });
     }
 
     const products = await Product.find({ category: categoryObj._id }).populate('category');
-    return res.status(200).json(products);
+    console.log('Products found:', products);
+    res.status(200).json(products);
   } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Internal server error:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 
 // Add a new product
