@@ -1,10 +1,10 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./models/db');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./models/db");
 
-const categoryRoutes = require('./routes/categories');
-const productRoutes = require('./routes/products');
+const categoryRoutes = require("./routes/categories");
+const productRoutes = require("./routes/products");
 
 const app = express();
 
@@ -14,11 +14,14 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/categories', categoryRoutes);
-app.use('/api/products', productRoutes);
 app.get("/", (req, res) => {
-    res.send("API is running....");
+  res.send("Welcome");
 });
 
+app.use("/api/categories", categoryRoutes);
+app.use("/api/products", productRoutes);
+
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
